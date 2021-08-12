@@ -4,9 +4,9 @@ const UserDAO = require('./UserDAO');
 const MessageDAO = {
   getMessages: async () => {
     const messages = await Message.query()
-      .innerJoinRelated('user')
-      .where('user.id', 'messages.sender_id');
-    console.log(messages);
+      .orderBy('messages.created_at')
+      .joinRelated('users')
+      .select('messages.*', 'users.name');
     return messages;
   },
   addMessage: async ({ text, senderName }) => {
@@ -16,6 +16,9 @@ const MessageDAO = {
       sender_id: sender.id,
     });
     return res;
+  },
+  deleteMessage: async ({ id }) => {
+    await Message.query().deleteById(id);
   },
 };
 

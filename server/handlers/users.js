@@ -1,19 +1,24 @@
-const { v4: uuidv4 } = require('uuid');
 const { UserDAO } = require('../db');
+const bcrypt = require('bcrypt');
 
 const registerUserHandlers = (socket, io) => {
-  const getUserByName = async ({ name }) => {
-    const user = await UserDAO.getUserByName(name);
-    console.log(user);
-    socket.emit('user', user);
-  };
-  const addUser = (user) => {
-    console.log(user);
-    UserDAO.addUser(user);
+  const registerUser = ({ name, password }) => {
+    //Todo check if user already exists
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    UserDAO.addUser({ name, password: hashedPassword });
   };
 
-  socket.on('user:find', getUserByName);
-  socket.on('user:add', addUser);
+  const loginUser = async ({ name, password }) => {
+    console.log(name, password);
+    const user = await UserDAO.getUserByName(name);
+    if (!user) return socket.emit('user', null);
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) return socket.emit('user', null);
+    socket.emit('user', user);
+  };
+
+  socket.on('user:login', loginUser);
+  socket.on('user:add', registerUser);
 };
 
 module.exports = registerUserHandlers;

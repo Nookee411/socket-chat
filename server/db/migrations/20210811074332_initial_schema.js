@@ -2,7 +2,7 @@ exports.up = async (knex) => {
   await knex.schema.createTable('users', function (table) {
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.uuid('id').defaultTo(knex.raw('uuid_generate_v4()')).primary();
-    table.string('name', 50);
+    table.string('name', 50).unique();
   });
 
   return knex.schema.createTable('messages', function (table) {

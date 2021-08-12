@@ -1,15 +1,13 @@
 const User = require('../models/User');
 const UserDAO = {
-  addUser: async (user) => {
-    const res = await User.query().insert(user);
-    console.log(res);
+  addUser: async ({ name, password }) => {
+    console.log(await User.query().insert({ name, password }));
   },
   getUserById: async (id) => {
     const user = await User.query().findById(id);
     return user;
   },
   getUserByName: async (name) => {
-    console.log(name);
     const user = await User.query().findOne({
       name,
     });

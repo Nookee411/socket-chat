@@ -13,7 +13,7 @@ class User extends Model {
     const Message = require('./Message');
     return {
       messages: {
-        relation: Model.HasManyRelation,
+        relation: Model.BelongsToOneRelation,
         modelClass: Message,
         join: {
           from: 'users.id',
@@ -26,10 +26,11 @@ class User extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      requred: ['name'],
+      requred: ['name', 'password'],
       properties: {
         id: { type: 'string' },
         name: { type: 'string' },
+        password: { type: 'string' },
       },
     };
   }
