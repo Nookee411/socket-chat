@@ -17,13 +17,23 @@ function AppRoutes() {
     <Switch>
       <RestrictedRoute
         exact
-        path="/"
+        path={LINKS.chat}
         component={Chat}
         allowIf={user.name !== null}
         redirect={LINKS.login}
       />
-      <Route path="/login" component={Login} />
-      <Route path="/register" component={Register} />
+      <RestrictedRoute
+        allowIf={user.name === null}
+        redirect={LINKS.chat}
+        path={LINKS.login}
+        component={Login}
+      />
+      <RestrictedRoute
+        allowIf={user.name === null}
+        redirect={LINKS.chat}
+        path={LINKS.register}
+        component={Register}
+      />
     </Switch>
   );
 }

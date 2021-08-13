@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import Cookies from 'js-cookie';
+import { NAMES } from '../../constants';
 
 const userSlice = createSlice({
   name: 'user',
@@ -11,10 +13,15 @@ const userSlice = createSlice({
       if (!payload || !payload.name || !payload.id) return;
       state.name = payload.name;
       state.id = payload.id;
+      Cookies.set(NAMES.userCookie, JSON.stringify(state));
     },
-    initUser: (state) => {
-      const user = localStorage.getItem('user');
-      if (user) state = user;
+    restoreUser: (state, action) => {
+      const user = JSON.parse(Cookies.get(NAMES.userCookie));
+      console.log(user);
+      if (!user || !user.name || !user.id) return;
+
+      state.name = user.name;
+      state.id = user.id;
     },
   },
 });

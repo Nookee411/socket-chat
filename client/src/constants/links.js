@@ -1,7 +1,7 @@
 const LINKS = {
   login: '/login',
   register: '/register',
-  chat: '/chat',
+  chat: '/',
 };
 
 export default LINKS;

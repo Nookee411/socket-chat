@@ -13,6 +13,7 @@ import { Redirect, useHistory } from 'react-router-dom';
 import { userActions } from '../store/slices/userSlice';
 import MessageController from '../controller/messageController';
 import UserController from '../controller/userController';
+import { LINKS } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -121,7 +122,7 @@ const Register = () => {
         <Button
           variant="outlined"
           color="primary"
-          onClick={() => history.push('/login')}
+          onClick={() => history.push(LINKS.login)}
         >
           Go to Login
         </Button>

@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(4),
     '&.user_message:hover [class*=deleteMessage]': {
       opacity: 1,
+      pointerEvents: 'auto',
     },
   },
   messageTime: {
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     opacity: 0,
     background: `radial-gradient(${theme.palette.surface.dark.primary} 30%, transparent)`,
     borderRadius: theme.spacing(1),
+    pointerEvents: 'none',
     transition: 'opacity 100ms ease-in',
     '& .MuiSvgIcon-root': {
       color: theme.palette.accent.primary,
@@ -49,24 +51,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UserMessage = ({ message: { id, text, created_at, name } }) => {
-  const time = new Date(created_at);
   const classes = useStyles();
   const user = useSelector(userSelectors.user);
-  const [isUserSender, setUserSender] = useState(null);
+  const isUserSender = user.name === name;
 
-  useEffect(() => {
-    setUserSender(user.name === name);
-  }, [user, name]);
+  const time = new Date(created_at).toLocaleTimeString('ru-RU').slice(0, 5);
 
   const handleMessageDelete = () => {
-    MessageController.deleteMessage(id);
+    MessageController.deleteMessage(user.id, id);
   };
 
   return (
     <div className={clsx(classes.messageRoot, { user_message: isUserSender })}>
-      <Typography className={classes.messageTime}>
-        {`${time.getHours()}:${time.getMinutes()}`}
-      </Typography>
+      <Typography className={classes.messageTime}>{`${time}`}</Typography>
       <div className={classes.message}>
         <AccountCircleIcon className={classes.messageIcon} />
         <span className={classes.messageAuthor}>{name}:</span>

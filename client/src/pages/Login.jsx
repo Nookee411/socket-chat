@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userActions, userSelectors } from '../store/slices/userSlice';
 import UserController from '../controller/userController';
 import useLogin from '../hooks/useLogin';
+import { LINKS } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,10 +41,8 @@ const Login = () => {
   const [user] = useLogin();
   const history = useHistory();
 
-  useEffect(() => {
-    console.log(user);
-    if (user && user.name) history.push('/');
-  }, [user]);
+  if (user && user.name) history.push('/');
+
   const submitUserLogin = () => {
     UserController.loginUser(username, password);
   };
@@ -75,7 +74,7 @@ const Login = () => {
           variant="outlined"
           color="primary"
           onClick={() => {
-            history.push('/register');
+            history.push(LINKS.register);
           }}
         >
           Go to Register

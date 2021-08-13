@@ -7,8 +7,8 @@ const MessageController = {
   getMessages: (username) => {
     socket.emit('message:get', { username });
   },
-  deleteMessage: (id) => {
-    socket.emit('message:remove', { id });
+  deleteMessage: (userid, id) => {
+    socket.emit('message:remove', { userid, id });
   },
 };
 
