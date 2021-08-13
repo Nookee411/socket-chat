@@ -7,10 +7,12 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   chat: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
     width: '100%',
     minHeight: '90vh',
     overflowY: 'scroll',
-    overflowX: 'hidden',
 
     '&::-webkit-scrollbar': {
       width: '1em',

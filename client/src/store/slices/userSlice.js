@@ -9,19 +9,26 @@ const userSlice = createSlice({
     id: null,
   },
   reducers: {
-    setUser: (state, { payload }) => {
-      if (!payload || !payload.name || !payload.id) return;
-      state.name = payload.name;
-      state.id = payload.id;
+    setUser: (state, { payload: { success, data } }) => {
+      if (!success) return;
+      state.name = data.name;
+      state.id = data.id;
       Cookies.set(NAMES.userCookie, JSON.stringify(state));
     },
     restoreUser: (state, action) => {
-      const user = JSON.parse(Cookies.get(NAMES.userCookie));
+      const cookie = Cookies.get(NAMES.userCookie);
+      if (!cookie) return;
+      const user = JSON.parse(cookie);
       console.log(user);
       if (!user || !user.name || !user.id) return;
 
       state.name = user.name;
       state.id = user.id;
+    },
+    logoutUser: (state, action) => {
+      Cookies.remove(NAMES.userCookie);
+      state.name = null;
+      state.id = null;
     },
   },
 });

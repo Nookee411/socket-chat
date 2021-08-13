@@ -17,8 +17,11 @@ const MessageDAO = {
     });
     return res;
   },
-  deleteMessage: async ({ id }) => {
-    await Message.query().deleteById(id);
+  deleteMessage: async ({ userid, id }) => {
+    await Message.query().where('sender_id', userid).where('id', id).del();
+  },
+  editMessage: async ({ id, text }) => {
+    await Message.query().patch({ text }).findById(id);
   },
 };
 

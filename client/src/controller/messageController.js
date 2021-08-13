@@ -10,6 +10,9 @@ const MessageController = {
   deleteMessage: (userid, id) => {
     socket.emit('message:remove', { userid, id });
   },
+  editMessage: (id, text) => {
+    socket.emit('message:edit', { id, text });
+  },
 };
 
 export default MessageController;

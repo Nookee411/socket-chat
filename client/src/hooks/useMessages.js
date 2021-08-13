@@ -13,7 +13,7 @@ const useMessages = () => {
     socket.on('messages', (messages) => {
       setMessages(messages);
     });
-  }, []);
+  }, [messages, user.name]);
 
   return messages;
 };

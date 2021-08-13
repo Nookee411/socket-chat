@@ -5,7 +5,7 @@ const UserController = {
     socket.emit('user:login', { name, password });
   },
   registerUser: (name, password) => {
-    socket.emit('user:add', { name, password });
+    socket.emit('user:register', { name, password });
   },
 };
 

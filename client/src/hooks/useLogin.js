@@ -7,7 +7,7 @@ const useLogin = () => {
   const dispatch = useDispatch();
   const user = useSelector(userSelectors.user);
   useEffect(() => {
-    socket.on('user', (user) => {
+    socket.on('user:login', (user) => {
       dispatch(userActions.setUser(user));
     });
   });
